@@ -1,4 +1,3 @@
-import gleam/bool
 import gleam/int
 import gleam/io
 import gleam/list
@@ -12,8 +11,7 @@ pub fn main() {
     |> result.map(parse_input)
   }
   data
-  |> list.map(is_safe)
-  |> list.count(fn(x) { x == True })
+  |> list.count(fn(x) { x |> is_safe })
   |> int.to_string
   |> io.println
 }
@@ -21,9 +19,10 @@ pub fn main() {
 pub fn parse_input(data) -> List(List(Int)) {
   let assert Ok(val) =
     data
-    |> string.trim_end
+    |> string.trim
     // separate on linebreaks
     |> string.split("\n")
+    |> list.map(string.trim)
     // convert each row into a list
     |> list.try_map(fn(x) { string.split(x, " ") |> list.try_map(int.parse) })
   val
